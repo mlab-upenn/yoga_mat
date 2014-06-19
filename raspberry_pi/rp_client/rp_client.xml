@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<IOTClass type="cloud">
+   <devicehwinfo id="001">
+      <hardware_info>
+         <name>PC</name>
+         <RAM>1024M</RAM>
+         <CPU>I5</CPU>
+      </hardware_info>
+   </devicehwinfo>
+</IOTClass>
+<IOTClass type="gateway">
+   <devicehwinfo id="002">
+      <hardware_info>
+         <name>raspberry pi</name>
+         <RAM>256M</RAM>
+         <CPU>ARM11</CPU>
+         <clockspeed>700MHz</clockspped>
+      </hardware_info>
+   </devicehwinfo>
+</IOTClass>
+<IOTClass type="device">
+   <devicehwinfo id="003">
+      <hardware_info>
+         <name>raspberry pi</name>
+         <RAM>256M</RAM>
+         <CPU>ARM11</CPU>
+         <clockspeed>700MHz</clockspped>
+      </hardware_info>
+   </devicehwinfo>
+   <device_type>fitness</device_type>
+      <device_subtype>yoga</device_subtype>
+   <device_attribute>
+      <sensor>pin1</sensor>
+      <sensor>pin2</sensor>
+      <sensor>pin3</sensor>
+      <sensor>pin4</sensor>
+      <sensor>pin5</sensor>
+</IOTClass>

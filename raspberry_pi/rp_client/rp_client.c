@@ -7,6 +7,7 @@
 #include <netinet/in.h>
 #include <wiringPi.h>
 
+//using wiringPi for GPIO
 #define PORT 12251
 #define BUTTON1 0
 #define BUTTON2 1
@@ -21,6 +22,7 @@ void error(const char *msg)
     exit(1);
 }
 
+//setup GPIO for usage
 void setup(void)
 {
   int i ;
@@ -102,12 +104,25 @@ int main(int argc, char *argv[])
      digitalWrite(CONTROL1,1); 
      while(1){
         
+        //test if the button has been clicked
+        if(digitalRead(BUTTON1) == HIGH){
+            delay(10);
+            if(digitalRead(BUTTON1) == HIGH){
+                bzero(buffer,256);
+                strcpy(buffer,"1\n");
+                delay(500);
+                n = write(newsockfd,buffer,strlen(buffer));
+                if (n < 0){
+                    error("ERROR writing to socket");
+                }  
+            }  
+        }
         if(digitalRead(BUTTON2) == HIGH){
             delay(10);
             if(digitalRead(BUTTON2) == HIGH){
                 bzero(buffer,256);
                 strcpy(buffer,"2\n");
-                delay(400);
+                delay(500);
                 n = write(newsockfd,buffer,strlen(buffer));
                 if (n < 0){
                     error("ERROR writing to socket");
@@ -119,7 +134,7 @@ int main(int argc, char *argv[])
             if(digitalRead(BUTTON3) == HIGH){
                 bzero(buffer,256);
                 strcpy(buffer,"3\n");
-                delay(400);
+                delay(500);
                 n = write(newsockfd,buffer,strlen(buffer));
                 if (n < 0){
                     error("ERROR writing to socket");
@@ -131,7 +146,7 @@ int main(int argc, char *argv[])
             if(digitalRead(BUTTON4) == HIGH){
                 bzero(buffer,256);
                 strcpy(buffer,"4\n");
-                delay(400);
+                delay(500);
                 n = write(newsockfd,buffer,strlen(buffer));
                 if (n < 0){
                     error("ERROR writing to socket");
@@ -162,6 +177,7 @@ int main(int argc, char *argv[])
             }  
           }
         }
+        //read from socket
         if(FD_ISSET(newsockfd,&rfds)){
             bzero(buffer,256);
             n=read(newsockfd,buffer,255);
@@ -170,8 +186,13 @@ int main(int argc, char *argv[])
                 digitalWrite(CONTROL1,0);
                 digitalWrite(CONTROL2,1);
             }
+            if(strcmp(buffer,"b\n")==0){
+                digitalWrite(CONTROL2,0);
+                digitalWrite(CONTROL1,1);
+            }
             printf("%s",buffer);
         }
+        //read from input from stdin
         if(FD_ISSET(STDIN_FILENO,&rfds)){
             bzero(buffer,256);
             fgets(buffer,255,stdin);
